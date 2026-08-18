@@ -1,0 +1,86 @@
+:root {
+  color-scheme: light;
+  --canvas: #f7f7f8;
+  --paper: #ffffff;
+  --paper-soft: #f0f2f5;
+  --paper-strong: #e7eaf0;
+  --ink: #17181a;
+  --ink-soft: #30333a;
+  --muted: #62666f;
+  --faint: #696e78;
+  --line: #dfe2e8;
+  --line-strong: #c9ced8;
+  --accent: #2864e8;
+  --accent-strong: #1648b9;
+  --accent-soft: #e5edff;
+  --accent-ink: #12337d;
+  --on-accent: #ffffff;
+  --dark-surface: #171820;
+  --dark-surface-soft: #20222b;
+  --dark-ink: #f2f3f5;
+  --dark-muted: #b8bdc8;
+  --success: #087f58;
+  --warning: #a85f0c;
+  --danger: #c73b43;
+  --shadow-soft: 0 10px 36px rgba(41, 47, 58, 0.08);
+  --shadow-raised: 0 22px 70px rgba(31, 38, 52, 0.14);
+  --radius-control: 10px;
+  --radius-card: 18px;
+  --radius-media: 24px;
+  --page-width: 1280px;
+  --reading-width: 760px;
+  --header-height: 68px;
+  --z-header: 30;
+  --z-menu: 40;
+  --z-presentation: 80;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: #101118;
+  --paper: #171820;
+  --paper-soft: #1e2028;
+  --paper-strong: #282b35;
+  --ink: #f2f3f5;
+  --ink-soft: #d7d9df;
+  --muted: #a4a8b2;
+  --faint: #9297a2;
+  --line: #2a2d35;
+  --line-strong: #3a3e49;
+  --accent: #6ca3ff;
+  --accent-strong: #91bbff;
+  --accent-soft: #172b51;
+  --accent-ink: #c9ddff;
+  --on-accent: #101b32;
+  --dark-surface: #0d0e13;
+  --dark-surface-soft: #171820;
+  --shadow-soft: 0 10px 36px rgba(0, 0, 0, 0.22);
+  --shadow-raised: 0 22px 70px rgba(0, 0, 0, 0.35);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --canvas: #101118;
+    --paper: #171820;
+    --paper-soft: #1e2028;
+    --paper-strong: #282b35;
+    --ink: #f2f3f5;
+    --ink-soft: #d7d9df;
+    --muted: #a4a8b2;
+    --faint: #9297a2;
+    --line: #2a2d35;
+    --line-strong: #3a3e49;
+    --accent: #6ca3ff;
+    --accent-strong: #91bbff;
+    --accent-soft: #172b51;
+    --accent-ink: #c9ddff;
+    --on-accent: #101b32;
+    --dark-surface: #0d0e13;
+    --dark-surface-soft: #171820;
+    --shadow-soft: 0 10px 36px rgba(0, 0, 0, 0.22);
+    --shadow-raised: 0 22px 70px rgba(0, 0, 0, 0.35);
+  }
+}

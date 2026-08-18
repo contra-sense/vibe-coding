@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f7f8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#101118" media="(prefers-color-scheme: dark)" />
+    <meta
+      name="description"
+      content="一份从 A3S、a3s-test 与 Agentic Reviewer 工程实践中提炼的 Vibe Coding 中文手册。"
+    />
+    <meta property="og:title" content="Vibe Coding 工程手册" />
+    <meta property="og:description" content="把上下文、权限与证据做成一条可以复现的工程闭环。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://contra-sense.github.io/vibe-coding/" />
+    <meta
+      property="og:image"
+      content="https://contra-sense.github.io/vibe-coding/assets/loop-still-life.webp"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/assets/loop-still-life.webp" as="image" type="image/webp" />
+    <script>
+      (() => {
+        const saved = localStorage.getItem("vibe-coding-theme");
+        if (saved === "light" || saved === "dark") {
+          document.documentElement.dataset.theme = saved;
+        }
+      })();
+    </script>
+    <title>Vibe Coding 工程手册</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到正文</a>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
