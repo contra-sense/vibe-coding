@@ -1,11 +1,15 @@
 import { describe, expect, it } from "vitest";
 import {
-  contextTiles,
+  boundaryDecisions,
   deckSlides,
+  domainLayers,
   failurePatterns,
-  loopSteps,
   principles,
+  reviewChecks,
   sources,
+  surfaceArtifacts,
+  taskAnnotations,
+  workflowSteps,
 } from "./content";
 
 describe("content contracts", () => {
@@ -24,22 +28,29 @@ describe("content contracts", () => {
     expect(privateSources.every((source) => source.project === "Agentic Reviewer")).toBe(true);
   });
 
-  it("keeps exact visual cell counts", () => {
+  it("keeps the handbook structure complete", () => {
     expect(principles).toHaveLength(4);
-    expect(loopSteps).toHaveLength(5);
-    expect(contextTiles).toHaveLength(5);
-    expect(failurePatterns).toHaveLength(6);
-    expect(deckSlides).toHaveLength(8);
+    expect(domainLayers).toHaveLength(4);
+    expect(boundaryDecisions).toHaveLength(5);
+    expect(reviewChecks).toHaveLength(5);
+    expect(workflowSteps).toHaveLength(7);
+    expect(surfaceArtifacts).toHaveLength(4);
+    expect(taskAnnotations).toHaveLength(10);
+    expect(failurePatterns).toHaveLength(7);
+    expect(deckSlides).toHaveLength(9);
   });
 
   it("contains no em dash or separator en dash in visible content", () => {
     const visibleContent = JSON.stringify({
-      contextTiles,
+      boundaryDecisions,
       deckSlides,
+      domainLayers,
       failurePatterns,
-      loopSteps,
       principles,
-      sources,
+      reviewChecks,
+      surfaceArtifacts,
+      taskAnnotations,
+      workflowSteps,
     });
 
     expect(visibleContent).not.toMatch(/[—–]/);

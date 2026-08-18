@@ -1,9 +1,9 @@
-import { ArrowSquareOut, GithubLogo } from "@phosphor-icons/react";
+import { ArrowRight, ArrowSquareOut, GithubLogo } from "@phosphor-icons/react";
 import { useState } from "react";
 import { AdversarialReview } from "./components/AdversarialReview";
-import { AuthorityChain } from "./components/AuthorityChain";
 import { BriefLab } from "./components/BriefLab";
-import { ContextBento } from "./components/ContextBento";
+import { CaseWorkbench } from "./components/CaseWorkbench";
+import { DomainMap } from "./components/DomainMap";
 import { FailurePatterns } from "./components/FailurePatterns";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
@@ -12,7 +12,7 @@ import { MonorepoPlaybook } from "./components/MonorepoPlaybook";
 import { PresentationMode } from "./components/PresentationMode";
 import { PrincipleBento } from "./components/PrincipleBento";
 import { SourceLedger } from "./components/SourceLedger";
-import { TestingPatterns } from "./components/TestingPatterns";
+import { SurfaceContract } from "./components/SurfaceContract";
 
 export function App() {
   const [presentationOpen, setPresentationOpen] = useState(false);
@@ -22,13 +22,13 @@ export function App() {
       <Header onOpenPresentation={() => setPresentationOpen(true)} />
       <main id="main" tabIndex={-1}>
         <Hero />
+        <CaseWorkbench />
         <PrincipleBento />
-        <LoopExplorer />
-        <ContextBento />
-        <BriefLab />
+        <DomainMap />
         <AdversarialReview />
-        <AuthorityChain />
-        <TestingPatterns />
+        <LoopExplorer />
+        <SurfaceContract />
+        <BriefLab />
         <MonorepoPlaybook />
         <FailurePatterns />
         <ClosingStatement />
@@ -44,8 +44,29 @@ function ClosingStatement() {
   return (
     <section className="closing-statement" aria-labelledby="closing-title">
       <div className="page-shell closing-statement__inner">
-        <p>最后只记住这一句</p>
-        <h2 id="closing-title">把偶然跑通，变成下一次仍然成立</h2>
+        <span className="closing-statement__number" aria-hidden="true">
+          END
+        </span>
+        <div>
+          <h2 id="closing-title">代理停下只是运行结束，工程完成还需要证据</h2>
+          <p>
+            目标状态已经成立，边界没有被悄悄改写，下一次还能重放。这三件事都能找到证据以后，一项工作才适合交付。
+          </p>
+        </div>
+        <ul aria-label="交付前的三个最终问题">
+          <li>
+            <span>目标</span>
+            用户能否观察到约定结果
+          </li>
+          <li>
+            <span>边界</span>
+            每条规则是否仍由正确层负责
+          </li>
+          <li>
+            <span>证据</span>
+            当前版本能否被独立复验
+          </li>
+        </ul>
         <div className="closing-statement__actions">
           <a
             className="button button--light"
@@ -54,8 +75,12 @@ function ClosingStatement() {
             rel="noreferrer"
           >
             <GithubLogo aria-hidden="true" weight="bold" />
-            查看源码与版本
+            查看源码和版本
             <ArrowSquareOut aria-hidden="true" weight="bold" />
+          </a>
+          <a className="closing-statement__source" href="#sources">
+            核对资料账本
+            <ArrowRight aria-hidden="true" weight="bold" />
           </a>
         </div>
       </div>
@@ -68,12 +93,14 @@ function Footer() {
     <footer className="site-footer">
       <div className="page-shell site-footer__inner">
         <div>
-          <span className="brand__mark" aria-hidden="true">
-            VC
+          <span className="brand-mark brand-mark--small" aria-hidden="true">
+            <i />
+            <i />
+            <i />
           </span>
-          <p>一份有出处、可复核、会继续修订的中文工程手册。</p>
+          <p>一份有出处、能复核、允许保留未知的中文工程手册。</p>
         </div>
-        <p>内容依据固定 commit，站点由 GitHub Pages 发布。</p>
+        <p>材料固定到具体 commit，站点由 GitHub Pages 发布。</p>
       </div>
     </footer>
   );

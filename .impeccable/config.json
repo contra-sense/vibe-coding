@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "designSystem": {
+      "enabled": true
+    },
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "Instrument Sans",
+        "files": ["src/styles/*.css"],
+        "createdAt": "2026-08-18T21:36:04Z",
+        "reason": "Intentional Latin body and control face paired with Chinese UI-sans fallbacks; it is not the display voice."
+      },
+      {
+        "rule": "overused-font",
+        "value": "Fraunces",
+        "files": ["src/styles/*.css"],
+        "createdAt": "2026-08-18T21:36:04Z",
+        "reason": "Intentional sequence face limited to chapter numbers, workflow indices, and slide furniture."
+      }
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 node_modules/
 dist/
 coverage/
+.a3s-test/
 .DS_Store
 *.log

@@ -1,5 +1,7 @@
-import "@fontsource-variable/geist";
+import "@fontsource-variable/fraunces";
+import "@fontsource-variable/instrument-sans";
 import "@fontsource-variable/jetbrains-mono";
+import "@fontsource-variable/noto-serif-sc";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";

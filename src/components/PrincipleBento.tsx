@@ -1,8 +1,7 @@
-import { ArrowsClockwise, BracketsCurly, CheckCircle, Question } from "@phosphor-icons/react";
+import { ArrowRight, WarningCircle } from "@phosphor-icons/react";
 import { principles, type SourceId } from "../content";
+import { ChapterIntro } from "./ChapterIntro";
 import { Citations } from "./Citations";
-
-const icons = [BracketsCurly, ArrowsClockwise, CheckCircle, Question];
 
 export function PrincipleBento() {
   const sourceIds = [
@@ -11,38 +10,57 @@ export function PrincipleBento() {
 
   return (
     <section
-      className="section section--principles page-shell"
+      className="chapter chapter--night chapter--principles"
       id="first-principles"
       aria-labelledby="principles-title"
     >
-      <div className="section-heading reveal">
-        <p className="section-heading__label">从事实出发</p>
-        <h2 id="principles-title">先承认四件绕不过去的事</h2>
-        <p>Vibe Coding 先要回答两个工程问题。代理何时有资格行动，我们又凭什么相信结果。</p>
-      </div>
+      <div className="page-shell">
+        <ChapterIntro
+          number="02"
+          id="principles-title"
+          title="先承认四件绕不过去的事"
+          lead="工具会变，模型会变，下面四个约束仍然留在现场。它们决定代理什么时候有资格行动，也决定我们凭什么相信结果。"
+          inverted
+        />
 
-      <div className="principle-grid">
-        {principles.map((principle, index) => {
-          const Icon = icons[index];
-          return (
+        <div className="principle-board">
+          {principles.map((principle, index) => (
             <article
-              className={`principle-card principle-card--${index + 1} reveal`}
+              className={`principle-card principle-card--${index + 1}`}
               key={principle.title}
             >
-              <div className="principle-card__icon" aria-hidden="true">
-                <Icon weight="duotone" />
-              </div>
-              <div>
+              <div className="principle-card__top">
+                <span>0{index + 1}</span>
                 <h3>{principle.title}</h3>
-                <p>{principle.body}</p>
               </div>
-              <strong>{principle.consequence}</strong>
+              <p>{principle.premise}</p>
+              <dl>
+                <div>
+                  <dt>因此要做</dt>
+                  <dd>{principle.consequence}</dd>
+                </div>
+                <div>
+                  <dt>审查问题</dt>
+                  <dd>{principle.challenge}</dd>
+                </div>
+              </dl>
+              <p className="principle-card__shortcut">
+                <WarningCircle aria-hidden="true" weight="fill" />
+                <span>
+                  <strong>拒绝的捷径</strong>
+                  {principle.shortcut}
+                </span>
+              </p>
+              <a href="#loop">
+                放进完整路径
+                <ArrowRight aria-hidden="true" weight="bold" />
+              </a>
             </article>
-          );
-        })}
-      </div>
+          ))}
+        </div>
 
-      <Citations ids={sourceIds} />
+        <Citations ids={sourceIds} label="推导依据" />
+      </div>
     </section>
   );
 }

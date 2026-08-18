@@ -1,26 +1,27 @@
-import { CheckCircle, GitDiff, MagnifyingGlass } from "@phosphor-icons/react";
+import { GitCommit, MapPin, MagnifyingGlass, TestTube } from "@phosphor-icons/react";
 import { monorepoPhases } from "../content";
+import { ChapterIntro } from "./ChapterIntro";
 import { Citations } from "./Citations";
 
-const icons = [MagnifyingGlass, GitDiff, CheckCircle];
+const icons = [MapPin, MagnifyingGlass, TestTube, GitCommit];
 
 export function MonorepoPlaybook() {
   return (
-    <section className="section section--monorepo" aria-labelledby="monorepo-title">
+    <section className="chapter chapter--soft chapter--monorepo" aria-labelledby="monorepo-title">
       <div className="page-shell">
-        <div className="section-heading section-heading--compact reveal">
-          <h2 id="monorepo-title">在 monorepo 里，先找归属，再写代码</h2>
-          <p>根目录只给地图。构建、测试、所有权和风险，通常藏在具体应用、包或子模块里。</p>
-        </div>
+        <ChapterIntro
+          number="08"
+          id="monorepo-title"
+          title="在 monorepo 里，先找归属，再写代码"
+          lead="根目录常常只负责给地图。具体应用、包或子模块通常拥有自己的构建、测试与风险。DDD 判断业务归属，仓库规则决定物理落点。"
+        />
 
         <div className="monorepo-grid">
           {monorepoPhases.map((phase, index) => {
             const Icon = icons[index];
             return (
-              <article
-                className={`monorepo-phase monorepo-phase--${index + 1} reveal`}
-                key={phase.title}
-              >
+              <article className={`monorepo-phase monorepo-phase--${index + 1}`} key={phase.title}>
+                <span>0{index + 1}</span>
                 <Icon aria-hidden="true" weight="duotone" />
                 <h3>{phase.title}</h3>
                 <ul>
@@ -28,17 +29,33 @@ export function MonorepoPlaybook() {
                     <li key={action}>{action}</li>
                   ))}
                 </ul>
+                <p>{phase.stop}</p>
               </article>
             );
           })}
         </div>
 
-        <div className="monorepo-rule reveal">
-          <code>search → read → locate owner → change → focused verify → document → deliver</code>
-          <p>这条顺序看着慢，动手以后通常更快。它省下的是返工和恢复用户现场的时间。</p>
+        <div className="monorepo-rule">
+          <div className="monorepo-rule__tree" aria-label="DDD 四层目录示意">
+            <code>
+              modules/authentication
+              <span>├── domain</span>
+              <span>├── application</span>
+              <span>├── infrastructure</span>
+              <span>└── presentation</span>
+            </code>
+          </div>
+          <div>
+            <h3>目录不会替你做领域判断</h3>
+            <p>
+              先沿业务语言找到权威规则，再按照本仓库的四层约定落文件。一个叫 service
+              的类可能在任何层，名字本身没有所有权。
+            </p>
+            <code>search → read → locate owner → change → verify → deliver</code>
+          </div>
         </div>
 
-        <Citations ids={["a3s-agents", "a3s-design", "a3s-web-design"]} />
+        <Citations ids={["a3s-agents", "a3s-design", "a3s-web-design"]} label="仓库实践依据" />
       </div>
     </section>
   );

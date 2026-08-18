@@ -1,33 +1,33 @@
 import { ArrowSquareOut, GitCommit, LockKey } from "@phosphor-icons/react";
 import { sources } from "../content";
+import { ChapterIntro } from "./ChapterIntro";
 
 const groups = ["A3S monorepo", "A3S Test", "Agentic Reviewer", "Bento"] as const;
 
 export function SourceLedger() {
   return (
-    <section className="section section--sources" id="sources" aria-labelledby="sources-title">
+    <section
+      className="chapter chapter--paper chapter--sources"
+      id="sources"
+      aria-labelledby="sources-title"
+    >
       <div className="page-shell">
-        <div className="section-heading reveal">
-          <p className="section-heading__label">资料账本</p>
-          <h2 id="sources-title">每个判断都能回到原始材料</h2>
-          <p>
-            下面的链接固定到本次整理时读取的
-            commit。项目继续变化，这份手册仍然能说明自己依据了哪一版。
-          </p>
-          <p className="source-access-note">
-            <LockKey aria-hidden="true" weight="bold" />
-            Agentic Reviewer 资料位于私有仓库。链接需要访问权限，未授权时 GitHub 会返回 404。
-          </p>
-        </div>
+        <ChapterIntro
+          number="10"
+          id="sources-title"
+          title="每个判断都能回到原始材料"
+          lead="下面的链接固定到本次整理时读取的 commit。上游项目继续变化，这份手册仍然能说明自己依据了哪一版。"
+        />
+        <p className="source-access-note">
+          <LockKey aria-hidden="true" weight="bold" />
+          Agentic Reviewer 资料位于私有仓库。链接需要访问权限，未授权时 GitHub 会返回 404。
+        </p>
 
         <div className="source-groups">
           {groups.map((group, groupIndex) => {
             const groupSources = sources.filter((source) => source.project === group);
             return (
-              <article
-                className={`source-group source-group--${groupIndex + 1} reveal`}
-                key={group}
-              >
+              <article className={`source-group source-group--${groupIndex + 1}`} key={group}>
                 <h3>
                   {group}
                   {group === "Agentic Reviewer" && (

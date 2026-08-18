@@ -1,0 +1,347 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-18T21:36:04Z",
+  "title": "Design System: Vibe Coding Engineering Field Guide",
+  "extensions": {
+    "colorMeta": {
+      "action-blue": {
+        "role": "primary",
+        "displayName": "A3S Action Blue",
+        "canonical": "#2d6cf6",
+        "tonalRamp": [
+          "#071737",
+          "#0c285f",
+          "#123c8f",
+          "#174ec8",
+          "#2d6cf6",
+          "#73a3ff",
+          "#b9d1ff",
+          "#eef4ff"
+        ]
+      },
+      "action-blue-strong": {
+        "role": "primary",
+        "displayName": "Deep Action Blue",
+        "canonical": "#174ec8",
+        "tonalRamp": [
+          "#06132f",
+          "#0a2358",
+          "#0f347f",
+          "#174ec8",
+          "#376de2",
+          "#78a2f3",
+          "#bed3ff",
+          "#f0f5ff"
+        ]
+      },
+      "review-coral": {
+        "role": "secondary",
+        "displayName": "Review Coral",
+        "canonical": "#ff927d",
+        "tonalRamp": [
+          "#35110c",
+          "#5d2118",
+          "#873124",
+          "#b94e3c",
+          "#ff927d",
+          "#ffb4a5",
+          "#ffd9cf",
+          "#fff2ee"
+        ]
+      },
+      "midnight": {
+        "role": "neutral",
+        "displayName": "Midnight Review Room",
+        "canonical": "#0b192a",
+        "tonalRamp": [
+          "#03080e",
+          "#071321",
+          "#0b192a",
+          "#11263d",
+          "#17304b",
+          "#36516f",
+          "#7890aa",
+          "#dce4ef"
+        ]
+      },
+      "deep-midnight": {
+        "role": "neutral",
+        "displayName": "Deep Midnight Chrome",
+        "canonical": "#071321",
+        "tonalRamp": [
+          "#020609",
+          "#040d17",
+          "#071321",
+          "#0e2034",
+          "#152b44",
+          "#314a65",
+          "#748aa4",
+          "#d9e2ed"
+        ]
+      },
+      "midnight-panel": {
+        "role": "neutral",
+        "displayName": "Midnight Artifact Panel",
+        "canonical": "#11263d",
+        "tonalRamp": [
+          "#040a11",
+          "#081421",
+          "#11263d",
+          "#17304b",
+          "#26445f",
+          "#4c6783",
+          "#93a6ba",
+          "#e4eaf0"
+        ]
+      },
+      "warm-paper": {
+        "role": "neutral",
+        "displayName": "Warm Editorial Paper",
+        "canonical": "#f4f1e9",
+        "tonalRamp": [
+          "#211f1a",
+          "#3f3b32",
+          "#655f52",
+          "#938b7c",
+          "#c6bfb3",
+          "#eae7df",
+          "#f4f1e9",
+          "#fffdf7"
+        ]
+      },
+      "high-paper": {
+        "role": "neutral",
+        "displayName": "High Paper",
+        "canonical": "#fffdf7",
+        "tonalRamp": [
+          "#24211b",
+          "#443f34",
+          "#6f6757",
+          "#9f9583",
+          "#d0c8ba",
+          "#eee9df",
+          "#f8f5ed",
+          "#fffdf7"
+        ]
+      },
+      "primary-ink": {
+        "role": "neutral",
+        "displayName": "Primary Editorial Ink",
+        "canonical": "#0d1b2e",
+        "tonalRamp": [
+          "#04080d",
+          "#08111d",
+          "#0d1b2e",
+          "#1f334b",
+          "#40566f",
+          "#71849a",
+          "#aebbc9",
+          "#edf1f5"
+        ]
+      },
+      "muted-ink": {
+        "role": "neutral",
+        "displayName": "Muted Explanatory Ink",
+        "canonical": "#556477",
+        "tonalRamp": [
+          "#10151c",
+          "#202a36",
+          "#354354",
+          "#556477",
+          "#718095",
+          "#99a5b3",
+          "#c9d0d8",
+          "#f1f3f5"
+        ]
+      },
+      "cool-mist": {
+        "role": "neutral",
+        "displayName": "Cool Midnight Mist",
+        "canonical": "#bdc8d7",
+        "tonalRamp": [
+          "#18202a",
+          "#2c3948",
+          "#4a5c70",
+          "#71849a",
+          "#9bacbf",
+          "#bdc8d7",
+          "#dce3eb",
+          "#f5f7fa"
+        ]
+      },
+      "structural-steel": {
+        "role": "secondary",
+        "displayName": "Structural Steel",
+        "canonical": "#6380a9",
+        "tonalRamp": [
+          "#101925",
+          "#20334a",
+          "#345373",
+          "#4b6d96",
+          "#6380a9",
+          "#8da4c2",
+          "#bdcada",
+          "#eef2f6"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Chinese Editorial Display",
+        "purpose": "Hero and playback statements only."
+      },
+      "headline": {
+        "displayName": "Chapter Headline",
+        "purpose": "Major reading transitions and chapter titles."
+      },
+      "body": {
+        "displayName": "Engineering Prose",
+        "purpose": "Long-form explanation and interface copy."
+      },
+      "label": { "displayName": "Control Label", "purpose": "Compact actions and navigation." },
+      "mono": {
+        "displayName": "Measured State",
+        "purpose": "Code, revisions, protocols, and counters only."
+      },
+      "sequence": {
+        "displayName": "Editorial Sequence",
+        "purpose": "Chapter numbers, workflow indices, and progress numerals only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "stage",
+        "value": "0 28px 72px rgba(3, 12, 24, 0.28)",
+        "purpose": "Large hero and presentation stages inside the review room."
+      },
+      {
+        "name": "paper",
+        "value": "0 18px 48px rgba(33, 38, 45, 0.1)",
+        "purpose": "Raised diagrams and editorial panels on paper chapters."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state-ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Short lens, workflow, packet, and playback state changes."
+      },
+      {
+        "name": "ambient-lens-drift",
+        "value": "6s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate",
+        "purpose": "The single ambient motion in the hero lens stage."
+      }
+    ],
+    "breakpoints": [
+      { "name": "wide-navigation", "value": "1080px" },
+      { "name": "mobile-navigation", "value": "860px" },
+      { "name": "stacked-artifacts", "value": "720px" },
+      { "name": "compact-chapters", "value": "620px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The default action for starting, advancing, or confirming a verified step.",
+      "html": "<button class=\"ds-button-primary\">从演练开始</button>",
+      "css": ".ds-button-primary { min-height: 46px; padding: 12px 20px; border: 0; border-radius: var(--radius-pill, 999px); background: var(--blue, #2d6cf6); color: var(--on-blue, #fff); font: 700 0.91rem/1 'Instrument Sans Variable', sans-serif; box-shadow: 0 10px 26px rgba(20, 77, 200, 0.3); transition: background 160ms ease, transform 160ms ease; } .ds-button-primary:hover { background: var(--blue-strong, #174ec8); transform: translateY(-2px); } .ds-button-primary:active { transform: translateY(0); } .ds-button-primary:focus-visible { outline: 3px solid var(--coral, #ff927d); outline-offset: 3px; }"
+    },
+    {
+      "name": "Night Button",
+      "kind": "button",
+      "refersTo": "button-night",
+      "description": "A secondary action that stays legible inside a midnight chapter.",
+      "html": "<button class=\"ds-button-night\">查看完整路径</button>",
+      "css": ".ds-button-night { min-height: 46px; padding: 12px 20px; border: 1px solid rgba(255,255,255,0.24); border-radius: var(--radius-pill, 999px); background: rgba(255,255,255,0.04); color: #f7f2e9; font: 700 0.91rem/1 'Instrument Sans Variable', sans-serif; transition: background 160ms ease, border-color 160ms ease, transform 160ms ease; } .ds-button-night:hover { border-color: rgba(255,255,255,0.45); background: rgba(255,255,255,0.08); transform: translateY(-2px); } .ds-button-night:focus-visible { outline: 3px solid var(--coral, #ff927d); outline-offset: 3px; }"
+    },
+    {
+      "name": "Header Control",
+      "kind": "nav",
+      "description": "Quiet pill control for presentation, repository, and theme actions.",
+      "html": "<button class=\"ds-header-control\">播放手册</button>",
+      "css": ".ds-header-control { min-height: 36px; padding: 7px 13px; border: 1px solid rgba(255,255,255,0.2); border-radius: 999px; background: rgba(255,255,255,0.04); color: #f7f2e9; font: 700 0.78rem/1 'Instrument Sans Variable', sans-serif; transition: border-color 150ms ease, background 150ms ease; } .ds-header-control:hover { border-color: rgba(255,255,255,0.42); background: rgba(255,255,255,0.08); } .ds-header-control:focus-visible { outline: 3px solid var(--coral, #ff927d); outline-offset: 3px; }"
+    },
+    {
+      "name": "Chapter Introduction",
+      "kind": "custom",
+      "description": "A meaningful sequence number paired with an editorial chapter statement.",
+      "html": "<section class=\"ds-chapter-intro\"><span aria-hidden=\"true\">05</span><div><h2>三条线，最后收束成一条工程路径</h2><p>七个步骤各自留下产物，也各自保留退出条件。</p></div></section>",
+      "css": ".ds-chapter-intro { display: grid; grid-template-columns: minmax(150px,.34fr) minmax(0,1fr); gap: 48px; align-items: start; color: var(--ink, #0d1b2e); } .ds-chapter-intro > span { color: color-mix(in srgb, currentColor 8%, transparent); font: 850 8rem/.72 'Fraunces Variable', serif; letter-spacing: -0.04em; } .ds-chapter-intro h2 { max-width: 11em; margin: 0; font: 850 3.4rem/1.08 'Noto Serif SC Variable', serif; letter-spacing: -0.025em; } .ds-chapter-intro p { max-width: 720px; margin: 25px 0 0; color: var(--muted, #556477); font: 400 1.05rem/1.78 'Instrument Sans Variable', sans-serif; }"
+    },
+    {
+      "name": "Workflow Tab",
+      "kind": "custom",
+      "description": "A numbered workflow step whose selected state carries both title and outcome.",
+      "html": "<button class=\"ds-workflow-tab\" aria-selected=\"true\"><span>01</span><span><strong>观察事实</strong><small>先还原现场</small></span></button>",
+      "css": ".ds-workflow-tab { display: grid; min-height: 76px; grid-template-columns: 38px 1fr; gap: 11px; align-items: center; padding: 13px 16px; border: 0; background: transparent; color: rgba(230,235,242,.68); text-align: left; } .ds-workflow-tab > span:first-child { color: var(--steel, #6380a9); font: 800 1.35rem/1 'Fraunces Variable', serif; } .ds-workflow-tab > span:last-child { display: grid; } .ds-workflow-tab strong { font-size: .82rem; } .ds-workflow-tab small { color: rgba(189,200,215,.5); font-size: .66rem; } .ds-workflow-tab[aria-selected='true'] { background: var(--blue, #2d6cf6); color: #fff; } .ds-workflow-tab[aria-selected='true'] > span:first-child, .ds-workflow-tab[aria-selected='true'] small { color: rgba(255,255,255,.75); } .ds-workflow-tab:focus-visible { outline: 3px solid var(--coral, #ff927d); outline-offset: -3px; }"
+    },
+    {
+      "name": "Review Verdict",
+      "kind": "card",
+      "description": "A bounded adversarial outcome with coral reserved for unresolved risk.",
+      "html": "<article class=\"ds-review-verdict\"><h3>未知</h3><p>关键事实无法恢复，继续动作可能扩大损失。</p></article>",
+      "css": ".ds-review-verdict { padding: 26px; border-radius: 14px; background: var(--coral, #ff927d); color: var(--on-coral, #24140f); } .ds-review-verdict h3 { margin: 0 0 12px; font: 850 1.7rem/1.2 'Noto Serif SC Variable', serif; } .ds-review-verdict p { margin: 0; font: 400 .86rem/1.7 'Instrument Sans Variable', sans-serif; opacity: .78; }"
+    },
+    {
+      "name": "Source Citation",
+      "kind": "custom",
+      "description": "A compact source row whose links remain readable in both rooms.",
+      "html": "<div class=\"ds-citation\"><span>审查依据</span><a href=\"#\">A3S Test</a></div>",
+      "css": ".ds-citation { display: flex; justify-content: space-between; gap: 24px; padding-top: 18px; border-top: 1px solid color-mix(in srgb, currentColor 24%, transparent); color: inherit; font: 650 .74rem/1.5 'Instrument Sans Variable', sans-serif; } .ds-citation > span { color: color-mix(in srgb, currentColor 68%, transparent); } .ds-citation a { color: color-mix(in srgb, currentColor 82%, transparent); text-decoration: none; } .ds-citation a:hover { color: currentColor; text-decoration: underline; text-underline-offset: 4px; } .ds-citation a:focus-visible { outline: 3px solid var(--coral, #ff927d); outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Midnight Review Room",
+    "overview": "The interface behaves like an editorial slide deck opened inside a quiet engineering review room. Midnight surfaces hold observation and decision work. Warm paper carries explanations that need sustained reading. One exercise stays visible while first principles, domain ownership, and adversarial review change the way it is examined.\n\nThe visual language studies the fixed stages, restrained playback controls, and alternating paper-and-night rhythm found in nyblnet/bento. The product keeps its own identity through Chinese-first editorial type, A3S blue actions, coral review signals, domain maps, and source-bound claims.",
+    "keyCharacteristics": [
+      "Alternating midnight and warm-paper chapters",
+      "Editorial Chinese display type beside compact technical labels",
+      "Fixed-stage diagrams whose state changes without hiding the underlying task",
+      "Blue reserved for action and verified progress, coral reserved for risk and challenge",
+      "Readable document flow before motion or presentation effects"
+    ],
+    "rules": [
+      {
+        "name": "The Authority Color Rule",
+        "body": "Blue marks an action or a verified state. Coral marks risk, review pressure, or an unresolved decision. Decorative use weakens both meanings.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two-Room Rule",
+        "body": "Reading happens on warm paper and active review happens on midnight. New surfaces must belong to one room before they receive an accent.",
+        "section": "colors"
+      },
+      {
+        "name": "The Editorial Reserve Rule",
+        "body": "Serif display type appears only where the reading order needs a major pause. Interface controls and explanatory paragraphs stay sans-serif.",
+        "section": "typography"
+      },
+      {
+        "name": "The Visible-Default Rule",
+        "body": "Main reading content is present in normal document flow. Motion can explain a state change, but it cannot be the condition that makes the content appear.",
+        "section": "layout"
+      },
+      {
+        "name": "The Bounded Depth Rule",
+        "body": "A surface may use a border or a shadow to establish separation. Combining both is reserved for a stage whose frame is part of the product metaphor.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep claims next to their source links and make restricted access visible.",
+      "Do use blue, coral, and neutral structure according to the Authority Color Rule.",
+      "Do test Chinese headings at desktop and mobile widths before release.",
+      "Do preserve keyboard operation, visible focus, reduced motion, and dark-theme contrast.",
+      "Do label exercise data, human decisions, and unknown outcomes explicitly."
+    ],
+    "donts": [
+      "Don't use gradients in text, decorative glass, hard offset shadows, or improvised glyph icons.",
+      "Don't wrap explanatory prose in repeated same-size cards.",
+      "Don't use mono type as a generic technical costume.",
+      "Don't present generated expectations as a browser accessibility tree or a repair authorization.",
+      "Don't let motion, horizontal scrolling, or playback become the only way to read required content."
+    ]
+  }
+}

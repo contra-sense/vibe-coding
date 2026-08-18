@@ -2,12 +2,13 @@ import { ArrowLeft, ArrowRight, X } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
-  authorityStages,
-  contextTiles,
   deckSlides,
-  loopSteps,
+  domainLayers,
   principles,
-  testingPatterns,
+  reviewChecks,
+  surfaceArtifacts,
+  taskAnnotations,
+  workflowSteps,
 } from "../content";
 
 interface PresentationModeProps {
@@ -20,7 +21,6 @@ export function PresentationMode({ open, onClose }: PresentationModeProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
-
   const lastIndex = deckSlides.length - 1;
 
   function goTo(index: number) {
@@ -51,12 +51,12 @@ export function PresentationMode({ open, onClose }: PresentationModeProps) {
         onClose();
         return;
       }
-      if (event.key === "ArrowRight" || event.key === "PageDown") {
+      if (["ArrowRight", "PageDown", " "].includes(event.key)) {
         event.preventDefault();
         goTo(slideIndex + 1);
         return;
       }
-      if (event.key === "ArrowLeft" || event.key === "PageUp") {
+      if (["ArrowLeft", "PageUp"].includes(event.key)) {
         event.preventDefault();
         goTo(slideIndex - 1);
         return;
@@ -71,12 +71,12 @@ export function PresentationMode({ open, onClose }: PresentationModeProps) {
         goTo(lastIndex);
         return;
       }
-      if (event.key !== "Tab" || !dialogRef.current) return;
+      if (event.key !== "Tab") return;
 
-      const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
-        'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])',
+      const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
+        'button:not(:disabled), a[href], [tabindex]:not([tabindex="-1"])',
       );
-      if (focusable.length === 0) return;
+      if (!focusable?.length) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
       if (event.shiftKey && document.activeElement === first) {
@@ -95,7 +95,6 @@ export function PresentationMode({ open, onClose }: PresentationModeProps) {
   if (!open) return null;
 
   const slide = deckSlides[slideIndex];
-  const coverTitleBreak = slide.kind === "cover" ? slide.title.indexOf("，") + 1 : 0;
 
   return createPortal(
     <div
@@ -105,57 +104,74 @@ export function PresentationMode({ open, onClose }: PresentationModeProps) {
       aria-labelledby="presentation-title"
       ref={dialogRef}
     >
-      <header className="presentation__header">
-        <div>
-          <span className="presentation__mark">VC</span>
-          <span>演示模式</span>
+      <header className="presentation__chrome">
+        <div className="presentation__brand">
+          <span className="brand-mark brand-mark--small" aria-hidden="true">
+            <i />
+            <i />
+            <i />
+          </span>
+          <span>vibe/coding · 播放手册</span>
+        </div>
+        <div className="presentation__progress" aria-hidden="true">
+          <span style={{ transform: `scaleX(${(slideIndex + 1) / deckSlides.length})` }} />
         </div>
         <button
           ref={closeButtonRef}
           type="button"
           className="presentation__icon-button"
           onClick={onClose}
-          aria-label="关闭演示模式"
+          aria-label="关闭播放手册"
         >
           <X aria-hidden="true" weight="bold" />
         </button>
       </header>
 
-      <main className={`presentation__slide presentation__slide--${slide.kind}`} key={slide.id}>
-        <div className="presentation__copy">
-          <h2 id="presentation-title" aria-label={coverTitleBreak > 0 ? slide.title : undefined}>
-            {coverTitleBreak > 0 ? (
-              <>
-                <span className="presentation__title-line" aria-hidden="true">
-                  {slide.title.slice(0, coverTitleBreak)}
-                </span>
-                <span className="presentation__title-line" aria-hidden="true">
-                  {slide.title.slice(coverTitleBreak)}
-                </span>
-              </>
-            ) : (
-              slide.title
-            )}
-          </h2>
-          <p>{slide.body}</p>
-        </div>
-        <SlideVisual kind={slide.kind} />
-      </main>
+      <div className="presentation__viewport">
+        <main className={`presentation__slide presentation__slide--${slide.kind}`} key={slide.id}>
+          <span className="presentation__slide-number" aria-hidden="true">
+            {String(slideIndex + 1).padStart(2, "0")}
+          </span>
+          <div className="presentation__copy">
+            <h2 id="presentation-title">{slide.title}</h2>
+            <p>{slide.body}</p>
+          </div>
+          <SlideVisual kind={slide.kind} />
+        </main>
+      </div>
 
-      <footer className="presentation__footer">
+      <footer className="presentation__controls">
         <p aria-live="polite">
-          第 {slideIndex + 1} / {deckSlides.length} 页
+          {String(slideIndex + 1).padStart(2, "0")} / {String(deckSlides.length).padStart(2, "0")}
         </p>
-        <div className="presentation__controls">
-          <button type="button" onClick={() => goTo(slideIndex - 1)} disabled={slideIndex === 0}>
+        <div className="presentation__dots" aria-label="跳到指定页面">
+          {deckSlides.map((item, index) => (
+            <button
+              key={item.id}
+              type="button"
+              className={index === slideIndex ? "is-active" : undefined}
+              onClick={() => goTo(index)}
+              aria-label={`第 ${index + 1} 页，${item.title}`}
+              aria-current={index === slideIndex ? "page" : undefined}
+            />
+          ))}
+        </div>
+        <div>
+          <button
+            type="button"
+            onClick={() => goTo(slideIndex - 1)}
+            disabled={slideIndex === 0}
+            aria-label="上一页"
+          >
             <ArrowLeft aria-hidden="true" weight="bold" />
-            上一页
+            <span>上一页</span>
           </button>
           <button
             type="button"
             onClick={() => (slideIndex === lastIndex ? onClose() : goTo(slideIndex + 1))}
+            aria-label={slideIndex === lastIndex ? "返回阅读" : "下一页"}
           >
-            {slideIndex === lastIndex ? "返回阅读" : "下一页"}
+            <span>{slideIndex === lastIndex ? "返回阅读" : "下一页"}</span>
             {slideIndex < lastIndex && <ArrowRight aria-hidden="true" weight="bold" />}
           </button>
         </div>
@@ -168,97 +184,113 @@ export function PresentationMode({ open, onClose }: PresentationModeProps) {
 function SlideVisual({ kind }: { kind: (typeof deckSlides)[number]["kind"] }) {
   if (kind === "cover") {
     return (
-      <img
-        className="presentation__hero-image"
-        src={`${import.meta.env.BASE_URL}assets/loop-still-life.webp`}
-        alt="纸飞机沿着留有检查开口的蓝色环路移动"
-      />
+      <div className="presentation-visual presentation-visual--cover" aria-hidden="true">
+        <span>第一性原理</span>
+        <span>DDD</span>
+        <span>对抗审查</span>
+        <strong>可验证结果</strong>
+      </div>
+    );
+  }
+
+  if (kind === "exercise") {
+    return (
+      <div className="presentation-visual presentation-visual--exercise">
+        <blockquote>登录失败时体验不好，改一下。</blockquote>
+        <div>
+          {["现状是什么", "期望来自哪里", "规则归谁", "代理拥有什么权限"].map((item, index) => (
+            <span key={item}>
+              0{index + 1} {item}
+            </span>
+          ))}
+        </div>
+      </div>
     );
   }
 
   if (kind === "principles") {
     return (
-      <div className="presentation__principles">
-        {principles.map((principle) => (
+      <div className="presentation-visual presentation-visual--grid">
+        {principles.map((principle, index) => (
           <article key={principle.title}>
+            <span>0{index + 1}</span>
             <h3>{principle.title}</h3>
-            <strong>{principle.consequence}</strong>
           </article>
         ))}
       </div>
     );
   }
 
-  if (kind === "loop") {
+  if (kind === "domain") {
     return (
-      <ol className="presentation__loop">
-        {loopSteps.map((step, index) => (
+      <div className="presentation-visual presentation-visual--layers">
+        {domainLayers.map((layer) => (
+          <article key={layer.key}>
+            <h3>{layer.name}</h3>
+            <p>{layer.owns}</p>
+          </article>
+        ))}
+      </div>
+    );
+  }
+
+  if (kind === "review") {
+    return (
+      <ol className="presentation-visual presentation-visual--review">
+        {reviewChecks.map((check, index) => (
+          <li key={check.title}>
+            <span>0{index + 1}</span>
+            <strong>{check.title}</strong>
+          </li>
+        ))}
+      </ol>
+    );
+  }
+
+  if (kind === "workflow") {
+    return (
+      <ol className="presentation-visual presentation-visual--workflow">
+        {workflowSteps.map((step, index) => (
           <li key={step.key}>
-            <span>{step.label}</span>
-            <small>{step.short}</small>
-            {index < loopSteps.length - 1 && <ArrowRight aria-hidden="true" weight="bold" />}
+            <span>0{index + 1}</span>
+            <strong>{step.label}</strong>
           </li>
         ))}
       </ol>
     );
   }
 
-  if (kind === "context") {
+  if (kind === "surface") {
     return (
-      <div className="presentation__context">
-        {contextTiles.map((tile) => (
-          <article key={tile.title}>
-            <h3>{tile.title}</h3>
-            <p>{tile.hint}</p>
+      <div className="presentation-visual presentation-visual--surface">
+        {surfaceArtifacts.map((artifact, index) => (
+          <article key={artifact.name}>
+            <span>0{index + 1}</span>
+            <h3>{artifact.name}</h3>
+            <p>{artifact.question}</p>
           </article>
         ))}
       </div>
     );
   }
 
-  if (kind === "brief") {
+  if (kind === "packet") {
     return (
-      <div className="presentation__brief">
-        {["目标与当前证据", "允许范围与不可改变", "验收条件与验证方式", "交付内容与剩余未知"].map(
-          (line) => (
-            <span key={line}>{line}</span>
-          ),
-        )}
-      </div>
-    );
-  }
-
-  if (kind === "authority") {
-    return (
-      <ol className="presentation__authority">
-        {authorityStages.map((stage) => (
-          <li key={stage.label}>
-            <span>{stage.authority}</span>
-            <strong>{stage.label}</strong>
-          </li>
-        ))}
-      </ol>
-    );
-  }
-
-  if (kind === "testing") {
-    return (
-      <div className="presentation__testing">
-        {testingPatterns.map((pattern) => (
-          <article key={pattern.title}>
-            <span>{pattern.tag}</span>
-            <h3>{pattern.title}</h3>
-          </article>
+      <div className="presentation-visual presentation-visual--packet">
+        {taskAnnotations.map((item, index) => (
+          <span key={item.title}>
+            {String(index + 1).padStart(2, "0")} {item.title}
+          </span>
         ))}
       </div>
     );
   }
 
   return (
-    <div className="presentation__close">
-      <span>看得见</span>
-      <span>停得住</span>
-      <span>能复现</span>
+    <div className="presentation-visual presentation-visual--close">
+      <span>目标成立</span>
+      <span>边界清楚</span>
+      <span>证据可重放</span>
     </div>
   );
 }
