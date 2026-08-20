@@ -2,6 +2,7 @@ import { GithubLogo, List, Moon, Play, Sun, X } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { navItems } from "../content";
 import { useTheme } from "../hooks/useTheme";
+import { BrandLogo } from "./BrandLogo";
 
 interface HeaderProps {
   onOpenPresentation: () => void;
@@ -23,14 +24,11 @@ export function Header({ onOpenPresentation }: HeaderProps) {
   return (
     <header className="site-header">
       <div className="site-header__bar page-shell">
-        <a className="brand" href="#top" aria-label="Vibe Coding 工程手册首页">
-          <span className="brand-mark" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </span>
-          <span className="brand__name">
-            vibe<span>/</span>coding
+        <a className="brand" href="#top" aria-label="ContraSense Vibe Coding 工程手册首页">
+          <BrandLogo compact />
+          <span className="brand__wording">
+            <strong className="brand__name">ContraSense</strong>
+            <small>vibe coding field guide</small>
           </span>
         </a>
 

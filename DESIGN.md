@@ -1,19 +1,16 @@
 ---
 name: Vibe Coding Engineering Field Guide
-description: A Chinese engineering field guide presented as an editorial review room
+description: A ContraSense Chinese engineering field guide presented as a browser-native slide deck
 colors:
-  action-blue: "#2d6cf6"
-  action-blue-strong: "#174ec8"
-  review-coral: "#ff927d"
-  midnight: "#0b192a"
-  deep-midnight: "#071321"
-  midnight-panel: "#11263d"
-  warm-paper: "#f4f1e9"
-  high-paper: "#fffdf7"
-  primary-ink: "#0d1b2e"
-  muted-ink: "#556477"
-  cool-mist: "#bdc8d7"
-  structural-steel: "#6380a9"
+  deck-orange: "#d97857"
+  deck-orange-strong: "#c76544"
+  deck-ink: "#1d1b18"
+  warm-paper: "#f3eadb"
+  high-paper: "#fbf4e8"
+  primary-ink: "#1d1b18"
+  muted-ink: "#615b52"
+  paper-mist: "#d8d0c4"
+  structural-gray: "#756f67"
 typography:
   display:
     fontFamily: "Noto Serif SC Variable, Songti SC, STSong, serif"
@@ -56,15 +53,15 @@ rounded:
   pill: "999px"
 components:
   button-primary:
-    backgroundColor: "{colors.action-blue}"
-    textColor: "#ffffff"
+    backgroundColor: "{colors.deck-orange}"
+    textColor: "{colors.deck-ink}"
     typography: "{typography.label}"
     rounded: "{rounded.pill}"
     padding: "12px 20px"
     height: "46px"
   button-primary-hover:
-    backgroundColor: "{colors.action-blue-strong}"
-    textColor: "#ffffff"
+    backgroundColor: "{colors.deck-orange-strong}"
+    textColor: "{colors.deck-ink}"
   button-night:
     backgroundColor: "rgba(255, 255, 255, 0.04)"
     textColor: "#f7f2e9"
@@ -73,7 +70,7 @@ components:
     padding: "12px 20px"
     height: "46px"
   panel-dark:
-    backgroundColor: "{colors.midnight-panel}"
+    backgroundColor: "{colors.deck-ink}"
     textColor: "#f7f2e9"
     rounded: "{rounded.panel}"
     padding: "24px"
@@ -83,50 +80,51 @@ components:
 
 ## Overview
 
-**Creative North Star: "The Midnight Review Room"**
+**Creative North Star: "The Warm Evidence Desk"**
 
-The interface behaves like an editorial slide deck opened inside a quiet engineering review room. Midnight surfaces hold observation and decision work. Warm paper carries explanations that need sustained reading. One exercise stays visible while first principles, domain ownership, and adversarial review change the way it is examined.
+The interface is a sixteen-slide browser-native presentation. Cream paper carries the argument, black ink provides structure, and orange illustrations turn abstract engineering ideas into human actions. Opening the URL reveals the cover immediately; there is no long-form site beneath the deck and no launch modal.
 
-The visual language studies the fixed stages, restrained playback controls, and alternating paper-and-night rhythm found in nyblnet/bento. The product keeps its own identity through Chinese-first editorial type, A3S blue actions, coral review signals, domain maps, and source-bound claims.
+The visual language takes cues from Anthropic's warm editorial restraint without reproducing its brand assets. The deck stays logo-free and uses Chinese-first typography, original loose-ink illustrations, and source-bound claims.
 
 **Key Characteristics:**
 
-- Alternating midnight and warm-paper chapters
+- A fixed 16:9 slide master using orange, cream, and black
+- A logo-free player and slide master that keep attention on the presentation content
 - Editorial Chinese display type beside compact technical labels
-- Fixed-stage diagrams whose state changes without hiding the underlying task
-- Blue reserved for action and verified progress, coral reserved for risk and challenge
-- Readable document flow before motion or presentation effects
+- Original black-ink illustrations that explain one action at a time
+- Orange reserved for illustration fields, active controls, and emphasis
+- One primary claim and one composition per slide
 
 ## Colors
 
-The palette separates action, review pressure, reading surfaces, and technical structure.
+The palette is deliberately limited to orange, cream, and black.
 
 ### Primary
 
-- **A3S Action Blue:** Primary actions, selected tabs, completed workflow segments, and verified progress.
-- **Deep Action Blue:** Hover and pressed emphasis where the normal action blue needs a clear state change.
+- **Deck Orange:** Illustration fields, selected controls, chapter emphasis, and active states.
+- **Deck Ink:** Text, rules, surrounding chrome, and crisp offset shadows.
 
 ### Secondary
 
-- **Review Coral:** Warnings, unresolved decisions, focus rings, challenge states, and the second line of the hero statement.
-- **Structural Steel:** Inactive indices, neutral geometry, and information that belongs to the frame rather than the current decision.
+- **Warm Paper:** The main reading surface and the light chapter background.
+- **Structural Gray:** Inactive indices, neutral geometry, and information that belongs to the frame rather than the current decision.
 
 ### Neutral
 
-- **Midnight:** Major interactive stages and adversarial chapters.
-- **Deep Midnight:** Persistent chrome, navigation, and nested dark surfaces.
-- **Midnight Panel:** Bounded artifacts and checks inside a dark stage.
+- **Warm Ink:** High-contrast technical stages and the dark theme.
+- **Deep Ink:** Nested dark surfaces and presentation surrounds.
+- **Ink Panel:** Bounded artifacts and checks inside an ink stage.
 - **Warm Paper:** Long-form reading chapters.
 - **High Paper:** Raised reading surfaces and source cards.
 - **Primary Ink:** Main text on paper.
 - **Muted Ink:** Explanatory copy and supporting labels on paper.
-- **Cool Mist:** Body copy and secondary information on midnight surfaces.
+- **Paper Mist:** Body copy and secondary information on ink surfaces.
 
 ### Named Rules
 
-**The Authority Color Rule.** Blue marks an action or a verified state. Coral marks risk, review pressure, or an unresolved decision. Decorative use weakens both meanings.
+**The Three-Color Rule.** Orange carries emphasis, cream carries reading, and black carries structure. New decorative colors are not introduced.
 
-**The Two-Room Rule.** Reading happens on warm paper and active review happens on midnight. New surfaces must belong to one room before they receive an accent.
+**The Desk Rule.** Reading happens on warm paper. Orange may fill a chapter or illustration, but it never reduces text contrast.
 
 ## Typography
 
@@ -151,76 +149,70 @@ The palette separates action, review pressure, reading surfaces, and technical s
 
 ## Layout
 
-The main container is 1180 pixels wide with a 24-pixel minimum gutter on desktop. Chapter introductions pair a narrow sequence column with a wider reading column. Complex artifacts sit below the introduction and occupy the full container so their internal hierarchy has room to work.
+Every page uses the same 16:9 canvas and scales as one unit in the workspace. A small slide header carries the chapter label and page count. A three-part footer closes the master. Content uses cover, left-right split, reversed split, and full-width statement layouts so adjacent slides do not repeat one silhouette.
 
-The sequence is meaningful and remains stable from the exercise through sources. At 860 pixels the header becomes a compact mobile menu and the hero becomes one column. At 720 pixels complex boards stack, the workflow rail becomes horizontally scrollable, and the DDD layers follow reading order. At 620 pixels chapter introductions stack and display sizes reduce. Tables preserve semantic markup inside bounded horizontal scroll regions. The document itself must not overflow at a 375-pixel viewport.
+The workspace canvas is sized from both viewport width and available height. Fullscreen switches to a full-bleed viewport canvas, removes the preview rail and reserved control row from layout, and floats the remaining controls above the slide. Container-relative units keep type, rules, images, and spacing proportional to the available width.
 
-**The Visible-Default Rule.** Main reading content is present in normal document flow. Motion can explain a state change, but it cannot be the condition that makes the content appear.
+**The Canvas Rule.** Workspace mode preserves 16:9 geometry. Fullscreen uses the complete viewport without letterboxing or reserved chrome.
 
 ## Elevation & Depth
 
-Most depth comes from tonal layering. Paper cards sit one tone above their chapter, while dark artifacts sit one tone above midnight. Wide, softly offset shadows are reserved for stage-scale objects and raised paper; ordinary explanatory groups remain flat.
+Most depth comes from contrast and overlap. Ordinary explanatory groups remain flat. The hero and slide illustrations may use one crisp offset ink shadow so they feel like printed sheets placed on a desk.
 
 ### Shadow Vocabulary
 
-- **Stage Shadow:** A broad dark shadow beneath the hero and presentation stages.
-- **Paper Shadow:** A lighter ambient shadow beneath diagrams and editorial panels.
+- **Print Offset:** A crisp ink offset beneath hero and presentation illustrations.
+- **Paper Separation:** A single rule or tonal step instead of a generic soft card shadow.
 
 **The Bounded Depth Rule.** A surface may use a border or a shadow to establish separation. Combining both is reserved for a stage whose frame is part of the product metaphor.
 
 ## Shapes
 
-Panels use restrained 12 to 14 pixel corners. Small controls use the 10 pixel control radius, while pill geometry is limited to compact actions and header controls. Large rounded rectangles represent real artifacts, stages, layers, or verdicts; prose does not receive a container merely for decoration.
+Panels are square or use a restrained 3 to 5 pixel radius. Controls are compact rectangles rather than pills. A rounded rectangle must represent a real artifact or state, never prose wrapped for decoration.
 
-The brand mark uses three crisp geometric pieces inside a compact rounded square. Diagrams use straight grids and tonal nesting rather than decorative illustration.
+The player and slide master remain logo-free. Diagrams use straight grids and tonal nesting, while narrative moments use the original loose-ink illustration set.
 
 ## Components
 
 ### Buttons
 
-- **Shape:** Primary and secondary actions use the pill token with a 46-pixel minimum height.
-- **Primary:** Action blue with a high-contrast foreground and a soft downward shadow.
-- **Hover / Focus:** Hover lifts by two pixels and deepens the surface. Focus uses the coral ring across light, dark, blue, and paper surfaces.
-- **Night:** A translucent white surface and visible border for actions inside midnight chapters.
+- **Shape:** Primary and secondary actions use a 44-pixel minimum height and 5-pixel radius.
+- **Primary:** Deck orange with a high-contrast ink foreground and no decorative shadow.
+- **Hover / Focus:** Hover deepens the orange surface. Focus stays highly visible across paper, orange, and ink.
+- **Ink:** A transparent surface and visible paper border for actions inside ink chapters.
 
 ### Cards / Containers
 
-- **Corner Style:** Panel geometry for artifacts and 12-pixel corners for nested objects.
+- **Corner Style:** Near-square panel geometry for artifacts and compact controls.
 - **Background:** One tonal step above the parent chapter.
 - **Shadow Strategy:** Flat by default; stage and raised-paper shadows only where the object boundary matters.
 - **Border:** A single low-contrast stroke when the edge needs to remain visible without elevation.
 - **Internal Padding:** Compact controls use 12 to 20 pixels; substantial artifacts start near 24 pixels and grow with viewport width.
 
-### Navigation
+### Player Chrome
 
-The sticky header stays 58 pixels high and uses deep midnight at every theme. Desktop links are quiet until hover. Mobile replaces the link row with a full-width dark menu whose items keep the document order. Theme, repository, and presentation actions remain icon-led but expose complete accessible names.
-
-### Three-Lens Stage
-
-The fictional task remains visible while the active lens changes. Tabs expose selected state, panels are named by their tab, and the progress line reflects the current lens. The active lens may move or clip into place, but its content starts visible.
-
-### Workflow Player
-
-Desktop uses a vertical rail beside a stage. Mobile turns the rail into a horizontally scrollable list with no visible scrollbar. Every step exposes an artifact, the contribution of each lens, and an exit condition.
+The left rail holds slide previews. A single fullscreen button sits in the upper-right corner, while page controls sit at the lower right. Fullscreen hides both control groups until the pointer enters their reveal zones.
 
 ### Playback Mode
 
-Playback centers a 16:9 canvas inside quiet dark chrome. Mobile removes the fixed ratio, preserves reading order, and keeps previous, next, and close controls named when visible labels are hidden.
+Playback is the product entry point. Cover, boundary, and closing slides use the illustration set. Desktop and mobile preserve the fixed ratio. Direction keys, Page Up, Page Down, Space, Home, and End navigate; Escape and the last-page action return to the cover.
 
 ## Do's and Don'ts
 
 ### Do:
 
 - **Do** keep claims next to their source links and make restricted access visible.
-- **Do** use blue, coral, and neutral structure according to the Authority Color Rule.
+- **Do** use orange, cream, and black according to the Three-Color Rule.
+- **Do** keep illustrations sparse, original, text-free, and legible at slide size.
 - **Do** test Chinese headings at desktop and mobile widths before release.
-- **Do** preserve keyboard operation, visible focus, reduced motion, and dark-theme contrast.
+- **Do** preserve keyboard operation, visible focus, reduced motion, and fixed-ratio mobile rendering.
 - **Do** label exercise data, human decisions, and unknown outcomes explicitly.
 
 ### Don't:
 
-- **Don't** use gradients in text, decorative glass, hard offset shadows, or improvised glyph icons.
+- **Don't** copy external brand illustrations, add a logo, or introduce decorative gradients.
+- **Don't** use more than one crisp offset shadow on a single stage.
 - **Don't** wrap explanatory prose in repeated same-size cards.
 - **Don't** use mono type as a generic technical costume.
 - **Don't** present generated expectations as a browser accessibility tree or a repair authorization.
-- **Don't** let motion, horizontal scrolling, or playback become the only way to read required content.
+- **Don't** add a website layer, launch modal, close action, or alternate long-form route beneath the deck.

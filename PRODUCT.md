@@ -2,52 +2,49 @@
 
 ## Product
 
-Vibe Coding Engineering Field Guide is a source-backed Chinese handbook for people who let coding agents change real repositories and user interfaces.
+Vibe Coding Engineering Field Guide is a sixteen-slide Chinese presentation for people who use coding agents in real repositories.
 
 ## Problem
 
-The current site introduces useful ideas, but it stops at slogans and compact summaries. A reader can repeat the five-step loop without being able to decide where a rule belongs, what evidence closes a task, or how to challenge an apparently successful result.
+The material needs to explain how people and teams turn model speed into reusable engineering judgment. An audience should be able to follow the argument in one sitting and leave with concrete practices.
 
 ## Audience
 
 - Engineers using coding agents in existing repositories
 - Reviewers responsible for accepting agent-generated changes
-- Frontend and test engineers adopting A3S Test and its embedded Test Kit
+- Frontend and test engineers adopting a3s-test
 - Technical leads defining repository boundaries, permissions, and release evidence
 
 ## Promise
 
-After reading the guide, a reader should be able to turn an ambiguous request into a bounded task packet, place each rule and change in the right DDD layer, run an adversarial review, and close the work with target-side evidence.
+After reading the guide, a reader should know what judgment to keep human, how to store team knowledge in a repository, how to challenge weak requests, and how to close changes with tests and review evidence.
 
 ## Narrative spine
 
-One explicitly fictional login-failure improvement travels through the whole guide. The same task is transformed by three lenses:
+The deck moves through three parts:
 
-1. First principles identify the facts, side effects, observable outcome, and uncertainty that cannot be wished away.
-2. Domain-driven design decides ownership, boundaries, invariants, and dependency direction.
-3. Adversarial review attacks goal drift, boundary leakage, broken provenance, authority expansion, and unknown outcomes.
-
-These lenses converge in one end-to-end workflow. They are not independent chapters that can contradict each other.
+1. Fluid and crystallized intelligence explain where human attention compounds.
+2. Shared crystallized intelligence explains how teams retain verified judgment.
+3. Repository structure, rule files, first-principles review, testing, a3s-test, and Agentic Reviewer turn that judgment into daily practice.
 
 ## Required content
 
-- A first-principles derivation with premise, consequence, failure mode, and required evidence
-- A practical DDD boundary model covering domain, application, infrastructure, and presentation
-- A decision table for placing common UI and service changes
-- A structured adversarial review with explicit attacks and release gates
-- A detailed task packet with annotations and a copy action
-- A3S Test coverage for observed surfaces, expected surface contracts, deterministic reports, human repair authorization, and re-verification
-- A monorepo field procedure and failure postmortems
-- A commit-pinned source ledger with private-source access warnings
+- Fluid and crystallized intelligence
+- Shared team judgment as the enterprise efficiency principle
+- Monorepo and DDD as context and ownership boundaries
+- CLAUDE.md and AGENTS.md as repository-local engineering judgment
+- A non-sycophantic first-principles feature gate
+- Minimal necessary implementation and adversarial review
+- Unit, integration, and end-to-end testing
+- One chapter each for a3s-test and Agentic Reviewer
 
 ## Experience requirements
 
-- Use the visual grammar of nyblnet/bento as a reference: midnight and warm-paper chapters, editorial serif display type, fixed-ratio stage compositions, quiet controls, and one object visibly changing between states
-- Retain A3S blue as the primary action color and reserve coral for risk and challenge
-- Default to readable document flow; motion may enhance a visible state but must never be required to reveal content
-- Provide a compact sticky header, responsive navigation, light and dark themes, and a presentation mode
-- Make the three lenses and their convergence findable within the first viewport
-- Preserve keyboard operation, visible focus, reduced-motion behavior, and mobile reading order
+- Use a warm editorial visual grammar with paper-led slides, Chinese serif display type, square loose-ink illustrations, and quiet controls
+- Keep the player, slide master, and browser chrome free of logos
+- Open directly on the cover with no website, launch trigger, dialog, or close action
+- Keep workspace slides at 16:9 and let fullscreen fill the complete browser viewport
+- Preserve keyboard operation, direct page navigation, reduced-motion behavior, and a last-page return to the cover
 
 ## Copy requirements
 
@@ -67,10 +64,10 @@ These lenses converge in one end-to-end workflow. They are not independent chapt
 
 ## Acceptance criteria
 
-- The main page contains all required content and the three lenses form one coherent workflow
-- Every factual section links to a relevant pinned source
-- The task packet copy action reports success and failure accessibly
-- Presentation mode supports keyboard navigation, focus containment, close, progress, and mobile layouts
-- The rendered page has no hidden-by-default reading sections, horizontal page overflow, unreadable code, or clipped Chinese headings at desktop and mobile sizes
+- The root application renders only the presentation
+- Sixteen slides form one coherent argument and use varied presentation layouts
+- Keyboard controls support previous, next, Home, End, and Escape-to-cover behavior
+- The last page exposes a clear return-to-cover action
+- The rendered deck has no page overflow or clipped Chinese headings at desktop and mobile sizes
 - Tests, formatting, TypeScript checks, and production build pass
 - A desktop and mobile browser review finds no console errors and verifies the primary interactions

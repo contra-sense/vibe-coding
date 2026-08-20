@@ -4,6 +4,8 @@ import { ChapterIntro } from "./ChapterIntro";
 import { Citations } from "./Citations";
 
 export function DomainMap() {
+  const illustration = `${import.meta.env.BASE_URL}assets/illustration-rule-owner.webp`;
+
   return (
     <section
       className="chapter chapter--paper chapter--domain"
@@ -17,6 +19,20 @@ export function DomainMap() {
           title="规则先找到主人，代码才知道放哪里"
           lead="四层目录只能提醒依赖方向。业务语言、不变量和外部技术各自的归属还要靠人判断。登录页看起来是前端任务，里面仍可能混着认证规则和协议映射。"
         />
+
+        <figure className="domain-illustration">
+          <img
+            src={illustration}
+            alt="一只手把规则放进四个区域中正确的位置，另一只手稳住整体边界"
+            width="1254"
+            height="1254"
+            loading="lazy"
+          />
+          <figcaption>
+            <span>先问归谁</span>
+            <strong>目录只提示方向，规则仍要找到主人。</strong>
+          </figcaption>
+        </figure>
 
         <div className="domain-stage" aria-label="DDD 四层边界图">
           <div className="domain-stage__direction">

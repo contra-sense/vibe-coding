@@ -1,83 +1,151 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { App } from "./App";
-import { taskTemplate } from "./content";
 
-describe("Vibe Coding field guide", () => {
-  it("renders the source-backed reading path", () => {
-    render(<App />);
+describe("ContraSense presentation", () => {
+  it("opens directly on the 16:9 presentation cover", () => {
+    const { container } = render(<App />);
 
-    expect(screen.getByRole("heading", { name: /先把成功写清楚/, level: 1 })).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "三条线，最后收束成一条工程路径" }),
-    ).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "每个判断都能回到原始材料" })).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: /A3S Test/ }).length).toBeGreaterThan(0);
-    expect(screen.getByRole("main")).toHaveAttribute("tabindex", "-1");
-    expect(screen.getByText(/Agentic Reviewer 资料位于私有仓库/)).toBeVisible();
-  });
-
-  it("moves through the three lenses with accessible tabs", async () => {
-    const user = userEvent.setup();
-    render(<App />);
-
-    const domainTab = screen.getByRole("tab", { name: /DDD/ });
-    await user.click(domainTab);
-
-    expect(domainTab).toHaveAttribute("aria-selected", "true");
-    const panel = screen.getByRole("tabpanel", { name: /DDD/ });
-    expect(within(panel).getByRole("heading", { name: "再判断每条规则归谁所有" })).toBeVisible();
-  });
-
-  it("moves through the integrated workflow", async () => {
-    const user = userEvent.setup();
-    render(<App />);
-
-    const verifyTab = screen.getByRole("tab", { name: /从目标端复验/ });
-    await user.click(verifyTab);
-
-    expect(verifyTab).toHaveAttribute("aria-selected", "true");
-    const panel = screen.getByRole("tabpanel", { name: /从目标端复验/ });
-    expect(within(panel).getByRole("heading", { name: "从目标端复验" })).toBeVisible();
-  });
-
-  it("shows the repair authorization path", async () => {
-    const user = userEvent.setup();
-    render(<App />);
-
-    await user.click(screen.getByRole("tab", { name: "人选修复" }));
-
-    expect(screen.getByRole("heading", { name: "点选是一种输入，提交才产生修复权" })).toBeVisible();
-  });
-
-  it("copies the task template", async () => {
-    const user = userEvent.setup();
-    const writeText = vi.spyOn(navigator.clipboard, "writeText").mockResolvedValue(undefined);
-    render(<App />);
-
-    await user.click(screen.getByRole("button", { name: "复制任务包模板" }));
-
-    expect(writeText).toHaveBeenCalledWith(taskTemplate);
-    expect(screen.getByRole("button", { name: "已复制" })).toBeVisible();
-  });
-
-  it("opens, advances and closes presentation mode", async () => {
-    const user = userEvent.setup();
-    render(<App />);
-
-    const trigger = screen.getByRole("button", { name: "播放手册" });
-    await user.click(trigger);
-
-    const dialog = screen.getByRole("dialog", { name: "先把成功写清楚，再让代理动手" });
-    expect(dialog).toBeVisible();
-    await user.click(within(dialog).getByRole("button", { name: "下一页" }));
-    expect(
-      within(dialog).getByRole("heading", { name: "同一句要求，藏着四个没有回答的问题" }),
+      screen.getByRole("heading", { name: "把 Vibe Coding 做成团队能力", level: 1 }),
     ).toBeVisible();
+    expect(screen.getByRole("main")).toHaveAttribute("aria-roledescription", "幻灯片");
+    expect(screen.getByText("01 / 16", { selector: ".presentation__controls p" })).toBeVisible();
+    expect(screen.queryByRole("button", { name: "播放手册" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /关闭/ })).not.toBeInTheDocument();
+    expect(screen.queryByText("ContraSense")).not.toBeInTheDocument();
+    expect(container.querySelector(".presentation__chrome")).not.toBeInTheDocument();
+    expect(screen.getByRole("complementary", { name: "幻灯片预览" })).toBeVisible();
+    expect(screen.getAllByRole("button", { name: /^第 \d+ 页，/ })).toHaveLength(16);
+  });
 
-    await user.keyboard("{Escape}");
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(trigger).toHaveFocus();
+  it("selects a slide from the preview rail", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const preview = screen.getByRole("button", {
+      name: "第 12 页，独立审查专门寻找反例",
+    });
+    await user.click(preview);
+
+    expect(preview).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("heading", { name: "独立审查专门寻找反例" })).toBeVisible();
+    expect(screen.getByText("审查者不继承结论")).toBeVisible();
+    expect(screen.getByText("证据不足暂不放行")).toBeVisible();
+  });
+
+  it("advances with the controls and keyboard", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole("button", { name: "下一页" }));
+    expect(screen.getByRole("heading", { name: "智力有两种工作方式" })).toBeVisible();
+
+    await user.keyboard("{End}");
+    expect(screen.getByRole("heading", { name: "下一轮开发少猜一步" })).toBeVisible();
+  });
+
+  it("returns from the final slide to the cover", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.keyboard("{End}");
+    await user.click(screen.getByRole("button", { name: "回到封面" }));
+
+    expect(screen.getByRole("heading", { name: "把 Vibe Coding 做成团队能力" })).toBeVisible();
+    expect(screen.getByText("01 / 16", { selector: ".presentation__controls p" })).toBeVisible();
+  });
+
+  it("enters and exits fullscreen from the controls", async () => {
+    const user = userEvent.setup();
+    let fullscreenElement: Element | null = null;
+    const fullscreenDescriptor = Object.getOwnPropertyDescriptor(document, "fullscreenElement");
+    const requestDescriptor = Object.getOwnPropertyDescriptor(
+      HTMLElement.prototype,
+      "requestFullscreen",
+    );
+    const exitDescriptor = Object.getOwnPropertyDescriptor(document, "exitFullscreen");
+    const requestFullscreen = vi.fn(async function (this: HTMLElement) {
+      fullscreenElement = this;
+      document.dispatchEvent(new Event("fullscreenchange"));
+    });
+    const exitFullscreen = vi.fn(async () => {
+      fullscreenElement = null;
+      document.dispatchEvent(new Event("fullscreenchange"));
+    });
+
+    Object.defineProperty(document, "fullscreenElement", {
+      configurable: true,
+      get: () => fullscreenElement,
+    });
+    Object.defineProperty(HTMLElement.prototype, "requestFullscreen", {
+      configurable: true,
+      value: requestFullscreen,
+    });
+    Object.defineProperty(document, "exitFullscreen", {
+      configurable: true,
+      value: exitFullscreen,
+    });
+
+    try {
+      render(<App />);
+
+      await user.click(screen.getByRole("button", { name: "进入全屏" }));
+      expect(requestFullscreen).toHaveBeenCalledOnce();
+
+      const presentation = screen.getByRole("main").closest(".presentation");
+      const exitButton = await screen.findByRole("button", { name: "退出全屏" });
+      const pager = screen.getByRole("navigation", { name: "演示文稿控制" });
+
+      expect(presentation).toHaveClass("is-fullscreen");
+      expect(exitButton).not.toHaveClass("is-revealed");
+      expect(pager).not.toHaveClass("is-revealed");
+
+      fireEvent.pointerMove(presentation!, {
+        clientX: window.innerWidth - 8,
+        clientY: 8,
+      });
+      expect(exitButton).toHaveClass("is-revealed");
+      expect(pager).not.toHaveClass("is-revealed");
+
+      fireEvent.pointerMove(presentation!, {
+        clientX: window.innerWidth - 8,
+        clientY: window.innerHeight - 8,
+      });
+      expect(exitButton).not.toHaveClass("is-revealed");
+      expect(pager).toHaveClass("is-revealed");
+
+      fireEvent.pointerMove(presentation!, {
+        clientX: window.innerWidth / 2,
+        clientY: window.innerHeight / 2,
+      });
+      expect(exitButton).not.toHaveClass("is-revealed");
+      expect(pager).not.toHaveClass("is-revealed");
+
+      fireEvent.pointerMove(presentation!, {
+        clientX: window.innerWidth - 8,
+        clientY: 8,
+      });
+      await user.click(exitButton);
+      expect(exitFullscreen).toHaveBeenCalledOnce();
+      expect(await screen.findByRole("button", { name: "进入全屏" })).toBeVisible();
+    } finally {
+      if (fullscreenDescriptor) {
+        Object.defineProperty(document, "fullscreenElement", fullscreenDescriptor);
+      } else {
+        Reflect.deleteProperty(document, "fullscreenElement");
+      }
+      if (requestDescriptor) {
+        Object.defineProperty(HTMLElement.prototype, "requestFullscreen", requestDescriptor);
+      } else {
+        Reflect.deleteProperty(HTMLElement.prototype, "requestFullscreen");
+      }
+      if (exitDescriptor) {
+        Object.defineProperty(document, "exitFullscreen", exitDescriptor);
+      } else {
+        Reflect.deleteProperty(document, "exitFullscreen");
+      }
+    }
   });
 });

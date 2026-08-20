@@ -1,12 +1,9 @@
 import type { LensKey, SourceId } from "./types";
 
 export const navItems = [
-  { href: "#exercise", label: "贯穿演练" },
-  { href: "#first-principles", label: "第一性原理" },
-  { href: "#domain", label: "领域边界" },
-  { href: "#review", label: "对抗审查" },
-  { href: "#surface", label: "界面契约" },
-  { href: "#brief", label: "任务包" },
+  { href: "#exercise", label: "方法" },
+  { href: "#domain", label: "边界" },
+  { href: "#loop", label: "路径" },
   { href: "#sources", label: "来源" },
 ];
 

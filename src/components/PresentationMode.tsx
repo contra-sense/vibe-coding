@@ -1,162 +1,282 @@
-import { ArrowLeft, ArrowRight, X } from "@phosphor-icons/react";
-import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
 import {
-  deckSlides,
-  domainLayers,
-  principles,
-  reviewChecks,
-  surfaceArtifacts,
-  taskAnnotations,
-  workflowSteps,
-} from "../content";
+  ArrowCounterClockwise,
+  ArrowLeft,
+  ArrowRight,
+  ArrowsIn,
+  ArrowsOut,
+} from "@phosphor-icons/react";
+import {
+  type PointerEvent as ReactPointerEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { deckSlides, type DeckSlide, type SlideVisualKey } from "../content";
 
-interface PresentationModeProps {
-  open: boolean;
-  onClose: () => void;
-}
+const asset = (name: string) => `${import.meta.env.BASE_URL}assets/${name}`;
 
-export function PresentationMode({ open, onClose }: PresentationModeProps) {
+const slideIllustrations: Record<SlideVisualKey, string> = {
+  cover: asset("illustration-cover-v2.png"),
+  "intelligence-types": asset("illustration-intelligence-curves.png"),
+  "llm-leverage": asset("illustration-intelligence.webp"),
+  "crystal-growth": asset("illustration-knowledge-retention.png"),
+  "shared-crystal": asset("illustration-project-graph.png"),
+  "engineering-knowledge": asset("illustration-engineering-taste-v2.png"),
+  "task-brief": asset("illustration-task-clarity.webp"),
+  "first-principles": asset("illustration-first-principles.png"),
+  "adversarial-review": asset("illustration-adversarial-review-v2.png"),
+  monorepo: asset("illustration-monorepo.png"),
+  "ddd-layers": asset("illustration-monorepo-ownership-v2.png"),
+  "rule-files": asset("illustration-local-rules-v2.png"),
+  "test-layers": asset("illustration-ddd-layers-v2.png"),
+  "a3s-test": asset("illustration-a3s-test-v2.png"),
+  "reviewer-scope": asset("illustration-reviewer-scope.png"),
+  close: asset("illustration-rule-files-v2.png"),
+};
+
+const fullscreenRevealZone = {
+  topRight: { width: 144, height: 120 },
+  bottomRight: { width: 440, height: 140 },
+} as const;
+
+export function PresentationMode() {
   const [slideIndex, setSlideIndex] = useState(0);
-  const dialogRef = useRef<HTMLDivElement>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const returnFocusRef = useRef<HTMLElement | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [revealedFullscreenControl, setRevealedFullscreenControl] = useState<
+    "button" | "pager" | null
+  >(null);
+  const [fullscreenMessage, setFullscreenMessage] = useState("");
+  const presentationRef = useRef<HTMLDivElement>(null);
   const lastIndex = deckSlides.length - 1;
 
-  function goTo(index: number) {
-    setSlideIndex(Math.min(lastIndex, Math.max(0, index)));
-  }
+  const goTo = useCallback(
+    (index: number) => {
+      setSlideIndex(Math.min(lastIndex, Math.max(0, index)));
+    },
+    [lastIndex],
+  );
+
+  const toggleFullscreen = useCallback(async () => {
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+        setFullscreenMessage("已退出全屏");
+        return;
+      }
+
+      if (!presentationRef.current?.requestFullscreen) {
+        setFullscreenMessage("当前浏览器不支持全屏");
+        return;
+      }
+
+      await presentationRef.current.requestFullscreen();
+      setFullscreenMessage("已进入全屏");
+    } catch {
+      setFullscreenMessage("浏览器未能切换全屏");
+    }
+  }, []);
 
   useEffect(() => {
-    if (!open) return;
-
-    returnFocusRef.current = document.activeElement as HTMLElement | null;
-    setSlideIndex(0);
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    window.requestAnimationFrame(() => closeButtonRef.current?.focus());
 
     return () => {
       document.body.style.overflow = previousOverflow;
-      returnFocusRef.current?.focus();
     };
-  }, [open]);
+  }, []);
 
   useEffect(() => {
-    if (!open) return;
+    function handleFullscreenChange() {
+      setIsFullscreen(document.fullscreenElement === presentationRef.current);
+      setRevealedFullscreenControl(null);
+    }
 
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
+  }, []);
+
+  useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
+      const target = event.target as HTMLElement | null;
+      const isInteractive = target?.closest("button, a, input, textarea, select");
+
       if (event.key === "Escape") {
+        if (document.fullscreenElement) {
+          event.preventDefault();
+          void document.exitFullscreen();
+          return;
+        }
+
         event.preventDefault();
-        onClose();
+        goTo(0);
         return;
       }
+
+      if (event.key.toLowerCase() === "f" && !isInteractive) {
+        event.preventDefault();
+        void toggleFullscreen();
+        return;
+      }
+
+      if (event.key === " " && isInteractive) return;
+
       if (["ArrowRight", "PageDown", " "].includes(event.key)) {
         event.preventDefault();
         goTo(slideIndex + 1);
         return;
       }
+
       if (["ArrowLeft", "PageUp"].includes(event.key)) {
         event.preventDefault();
         goTo(slideIndex - 1);
         return;
       }
+
       if (event.key === "Home") {
         event.preventDefault();
         goTo(0);
         return;
       }
+
       if (event.key === "End") {
         event.preventDefault();
         goTo(lastIndex);
-        return;
-      }
-      if (event.key !== "Tab") return;
-
-      const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
-        'button:not(:disabled), a[href], [tabindex]:not([tabindex="-1"])',
-      );
-      if (!focusable?.length) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
       }
     }
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [lastIndex, onClose, open, slideIndex]);
+  }, [goTo, lastIndex, slideIndex, toggleFullscreen]);
 
-  if (!open) return null;
+  const handlePointerMove = useCallback(
+    (event: ReactPointerEvent<HTMLDivElement>) => {
+      if (!isFullscreen) return;
+
+      const distanceFromRight = window.innerWidth - event.clientX;
+      const distanceFromBottom = window.innerHeight - event.clientY;
+      const isInTopRight =
+        distanceFromRight <= fullscreenRevealZone.topRight.width &&
+        event.clientY <= fullscreenRevealZone.topRight.height;
+      const isInBottomRight =
+        distanceFromRight <= fullscreenRevealZone.bottomRight.width &&
+        distanceFromBottom <= fullscreenRevealZone.bottomRight.height;
+
+      setRevealedFullscreenControl(isInTopRight ? "button" : isInBottomRight ? "pager" : null);
+    },
+    [isFullscreen],
+  );
 
   const slide = deckSlides[slideIndex];
 
-  return createPortal(
+  return (
     <div
-      className="presentation"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="presentation-title"
-      ref={dialogRef}
+      ref={presentationRef}
+      className={`presentation${isFullscreen ? " is-fullscreen" : ""}`}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={() => setRevealedFullscreenControl(null)}
     >
-      <header className="presentation__chrome">
-        <div className="presentation__brand">
-          <span className="brand-mark brand-mark--small" aria-hidden="true">
-            <i />
-            <i />
-            <i />
-          </span>
-          <span>vibe/coding · 播放手册</span>
+      <aside className="presentation__rail" aria-label="幻灯片预览">
+        <div className="presentation__rail-heading">
+          <strong>幻灯片</strong>
+          <span>{String(deckSlides.length).padStart(2, "0")} SLIDES</span>
         </div>
-        <div className="presentation__progress" aria-hidden="true">
-          <span style={{ transform: `scaleX(${(slideIndex + 1) / deckSlides.length})` }} />
-        </div>
-        <button
-          ref={closeButtonRef}
-          type="button"
-          className="presentation__icon-button"
-          onClick={onClose}
-          aria-label="关闭播放手册"
-        >
-          <X aria-hidden="true" weight="bold" />
-        </button>
-      </header>
+        <nav className="presentation__previews" aria-label="选择幻灯片">
+          {deckSlides.map((item, index) => (
+            <SlidePreview
+              key={item.id}
+              slide={item}
+              index={index}
+              active={index === slideIndex}
+              onSelect={() => goTo(index)}
+            />
+          ))}
+        </nav>
+      </aside>
+
+      <button
+        type="button"
+        className={`presentation__fullscreen-button${
+          isFullscreen && revealedFullscreenControl === "button" ? " is-revealed" : ""
+        }`}
+        onClick={() => void toggleFullscreen()}
+        aria-label={isFullscreen ? "退出全屏" : "进入全屏"}
+      >
+        {isFullscreen ? (
+          <ArrowsIn aria-hidden="true" weight="bold" />
+        ) : (
+          <ArrowsOut aria-hidden="true" weight="bold" />
+        )}
+        <span className="sr-only">{isFullscreen ? "退出全屏" : "进入全屏"}</span>
+      </button>
 
       <div className="presentation__viewport">
-        <main className={`presentation__slide presentation__slide--${slide.kind}`} key={slide.id}>
-          <span className="presentation__slide-number" aria-hidden="true">
-            {String(slideIndex + 1).padStart(2, "0")}
-          </span>
+        <main
+          id="main"
+          className={`presentation__slide presentation__slide--${slide.kind}`}
+          key={slide.id}
+          tabIndex={-1}
+          aria-labelledby="presentation-title"
+          aria-roledescription="幻灯片"
+        >
+          <header className="presentation__slide-header">
+            <span>{slide.eyebrow}</span>
+            <span aria-label={`第 ${slideIndex + 1} 页，共 ${deckSlides.length} 页`}>
+              {String(slideIndex + 1).padStart(2, "0")} /{" "}
+              {String(deckSlides.length).padStart(2, "0")}
+            </span>
+          </header>
+
           <div className="presentation__copy">
-            <h2 id="presentation-title">{slide.title}</h2>
-            <p>{slide.body}</p>
+            <p className="presentation__kicker">{slide.eyebrow}</p>
+            <h1 id="presentation-title" aria-label={slide.title}>
+              {slide.titleLines
+                ? slide.titleLines.map((line) => <span key={line}>{line}</span>)
+                : slide.title}
+            </h1>
+            <div className="presentation__detail">
+              <p>{slide.body}</p>
+              {slide.points ? (
+                <ul>
+                  {slide.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
           </div>
-          <SlideVisual kind={slide.kind} />
+
+          <figure className="presentation__illustration">
+            <img
+              src={slideIllustrations[slide.visual]}
+              alt=""
+              width="1254"
+              height="1254"
+              draggable="false"
+            />
+            {slide.caption ? <figcaption>{slide.caption}</figcaption> : null}
+          </figure>
+
+          <footer className="presentation__slide-footer" aria-hidden="true">
+            <span>{slide.source ?? "VIBE CODING ENGINEERING PLAYBOOK"}</span>
+            <span>{slide.id.replaceAll("-", " ").toUpperCase()}</span>
+          </footer>
         </main>
       </div>
 
-      <footer className="presentation__controls">
-        <p aria-live="polite">
-          {String(slideIndex + 1).padStart(2, "0")} / {String(deckSlides.length).padStart(2, "0")}
-        </p>
-        <div className="presentation__dots" aria-label="跳到指定页面">
-          {deckSlides.map((item, index) => (
-            <button
-              key={item.id}
-              type="button"
-              className={index === slideIndex ? "is-active" : undefined}
-              onClick={() => goTo(index)}
-              aria-label={`第 ${index + 1} 页，${item.title}`}
-              aria-current={index === slideIndex ? "page" : undefined}
-            />
-          ))}
+      <nav
+        className={`presentation__controls${
+          isFullscreen && revealedFullscreenControl === "pager" ? " is-revealed" : ""
+        }`}
+        aria-label="演示文稿控制"
+      >
+        <div className="presentation__control-status">
+          <p aria-live="polite">
+            {String(slideIndex + 1).padStart(2, "0")} / {String(deckSlides.length).padStart(2, "0")}
+          </p>
+          <span>方向键翻页 · F 切换全屏</span>
         </div>
-        <div>
+        <div className="presentation__pager">
           <button
             type="button"
             onClick={() => goTo(slideIndex - 1)}
@@ -168,129 +288,53 @@ export function PresentationMode({ open, onClose }: PresentationModeProps) {
           </button>
           <button
             type="button"
-            onClick={() => (slideIndex === lastIndex ? onClose() : goTo(slideIndex + 1))}
-            aria-label={slideIndex === lastIndex ? "返回阅读" : "下一页"}
+            onClick={() => (slideIndex === lastIndex ? goTo(0) : goTo(slideIndex + 1))}
+            aria-label={slideIndex === lastIndex ? "回到封面" : "下一页"}
           >
-            <span>{slideIndex === lastIndex ? "返回阅读" : "下一页"}</span>
-            {slideIndex < lastIndex && <ArrowRight aria-hidden="true" weight="bold" />}
+            <span>{slideIndex === lastIndex ? "回到封面" : "下一页"}</span>
+            {slideIndex === lastIndex ? (
+              <ArrowCounterClockwise aria-hidden="true" weight="bold" />
+            ) : (
+              <ArrowRight aria-hidden="true" weight="bold" />
+            )}
           </button>
         </div>
-      </footer>
-    </div>,
-    document.body,
+        <span className="sr-only" aria-live="polite">
+          {fullscreenMessage}
+        </span>
+      </nav>
+    </div>
   );
 }
 
-function SlideVisual({ kind }: { kind: (typeof deckSlides)[number]["kind"] }) {
-  if (kind === "cover") {
-    return (
-      <div className="presentation-visual presentation-visual--cover" aria-hidden="true">
-        <span>第一性原理</span>
-        <span>DDD</span>
-        <span>对抗审查</span>
-        <strong>可验证结果</strong>
-      </div>
-    );
-  }
+interface SlidePreviewProps {
+  slide: DeckSlide;
+  index: number;
+  active: boolean;
+  onSelect: () => void;
+}
 
-  if (kind === "exercise") {
-    return (
-      <div className="presentation-visual presentation-visual--exercise">
-        <blockquote>登录失败时体验不好，改一下。</blockquote>
-        <div>
-          {["现状是什么", "期望来自哪里", "规则归谁", "代理拥有什么权限"].map((item, index) => (
-            <span key={item}>
-              0{index + 1} {item}
-            </span>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (kind === "principles") {
-    return (
-      <div className="presentation-visual presentation-visual--grid">
-        {principles.map((principle, index) => (
-          <article key={principle.title}>
-            <span>0{index + 1}</span>
-            <h3>{principle.title}</h3>
-          </article>
-        ))}
-      </div>
-    );
-  }
-
-  if (kind === "domain") {
-    return (
-      <div className="presentation-visual presentation-visual--layers">
-        {domainLayers.map((layer) => (
-          <article key={layer.key}>
-            <h3>{layer.name}</h3>
-            <p>{layer.owns}</p>
-          </article>
-        ))}
-      </div>
-    );
-  }
-
-  if (kind === "review") {
-    return (
-      <ol className="presentation-visual presentation-visual--review">
-        {reviewChecks.map((check, index) => (
-          <li key={check.title}>
-            <span>0{index + 1}</span>
-            <strong>{check.title}</strong>
-          </li>
-        ))}
-      </ol>
-    );
-  }
-
-  if (kind === "workflow") {
-    return (
-      <ol className="presentation-visual presentation-visual--workflow">
-        {workflowSteps.map((step, index) => (
-          <li key={step.key}>
-            <span>0{index + 1}</span>
-            <strong>{step.label}</strong>
-          </li>
-        ))}
-      </ol>
-    );
-  }
-
-  if (kind === "surface") {
-    return (
-      <div className="presentation-visual presentation-visual--surface">
-        {surfaceArtifacts.map((artifact, index) => (
-          <article key={artifact.name}>
-            <span>0{index + 1}</span>
-            <h3>{artifact.name}</h3>
-            <p>{artifact.question}</p>
-          </article>
-        ))}
-      </div>
-    );
-  }
-
-  if (kind === "packet") {
-    return (
-      <div className="presentation-visual presentation-visual--packet">
-        {taskAnnotations.map((item, index) => (
-          <span key={item.title}>
-            {String(index + 1).padStart(2, "0")} {item.title}
-          </span>
-        ))}
-      </div>
-    );
-  }
-
+function SlidePreview({ slide, index, active, onSelect }: SlidePreviewProps) {
   return (
-    <div className="presentation-visual presentation-visual--close">
-      <span>目标成立</span>
-      <span>边界清楚</span>
-      <span>证据可重放</span>
-    </div>
+    <button
+      type="button"
+      className={`presentation__preview presentation__preview--${slide.kind}${active ? " is-active" : ""}`}
+      onClick={onSelect}
+      aria-label={`第 ${index + 1} 页，${slide.title}`}
+      aria-current={active ? "page" : undefined}
+    >
+      <span className="presentation__preview-number">{String(index + 1).padStart(2, "0")}</span>
+      <span className="presentation__preview-canvas" aria-hidden="true">
+        <span className="presentation__preview-rule" />
+        <strong>{slide.title}</strong>
+        <img
+          src={slideIllustrations[slide.visual]}
+          alt=""
+          width="1254"
+          height="1254"
+          draggable="false"
+        />
+      </span>
+    </button>
   );
 }

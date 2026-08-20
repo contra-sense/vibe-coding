@@ -3,41 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f7f7f8" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#101118" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#1d1b18" />
     <meta
       name="description"
-      content="一份用第一性原理、领域驱动设计和对抗式审查约束真实工程行动的 Vibe Coding 中文手册。"
+      content="ContraSense Vibe Coding 工程手册，一份打开即可播放的中文演示文稿。"
     />
-    <meta property="og:title" content="Vibe Coding 工程手册" />
+    <meta property="og:title" content="ContraSense · Vibe Coding 工程手册" />
     <meta property="og:description" content="先把成功写清楚，再让代理动手。" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://contra-sense.github.io/vibe-coding/" />
     <meta
       property="og:image"
-      content="https://contra-sense.github.io/vibe-coding/assets/loop-still-life.webp"
+      content="https://contra-sense.github.io/vibe-coding/assets/illustration-task-clarity.webp"
     />
-    <link rel="icon" href="%BASE_URL%favicon.svg" type="image/svg+xml" />
-    <script>
-      (() => {
-        const saved = localStorage.getItem("vibe-coding-theme");
-        if (saved === "light" || saved === "dark") {
-          document.documentElement.dataset.theme = saved;
-        }
-      })();
-    </script>
-    <title>Vibe Coding 工程手册</title>
+    <title>ContraSense · Vibe Coding 工程手册</title>
   </head>
   <body>
     <!--
       THESIS: Agent work becomes engineering work only when outcome, ownership, authority, and evidence stay separable.
-      OWN-WORLD: A source-backed field guide presented as an editorial slide deck inside a midnight review room.
+      OWN-WORLD: A browser-native ContraSense presentation on a warm-paper 16:9 master.
       STORY: One fictional login fix moves through first principles, DDD, adversarial review, execution, and target-side verification.
-      FIRST VIEWPORT: The promise and the three lenses are visible immediately beside a live fixed-ratio stage.
-      FORM: Alternating midnight and warm-paper chapters, serif Chinese display type, A3S blue actions, coral review signals.
-      FINISH: Default-visible content, quiet controls, one continuous state-change motif, keyboard-safe playback, and mobile reading order.
+      FIRST VIEWPORT: The cover slide appears immediately with no website layer or launch step.
+      FORM: Cream paper, orange fields, and black ink alternate across sixteen low-density slide compositions.
+      FINISH: Keyboard-safe playback, direct slide navigation, a cover loop, and a fixed-ratio mobile view.
     -->
-    <a class="skip-link" href="#main">跳到正文</a>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

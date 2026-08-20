@@ -4,7 +4,7 @@ import { ChapterIntro } from "./ChapterIntro";
 import { Citations } from "./Citations";
 
 export function AdversarialReview() {
-  const reviewImage = `${import.meta.env.BASE_URL}assets/review-gate.webp`;
+  const reviewImage = `${import.meta.env.BASE_URL}assets/illustration-evidence-loop.webp`;
 
   return (
     <section
@@ -25,9 +25,9 @@ export function AdversarialReview() {
           <figure className="review-visual">
             <img
               src={reviewImage}
-              alt="一个纸质结构从两个方向接受检查，前方闸门仍然关闭"
-              width="1200"
-              height="800"
+              alt="两只手把三段证据链穿在一起，检查它们是否能形成完整闭环"
+              width="1254"
+              height="1254"
               loading="lazy"
             />
             <figcaption>
