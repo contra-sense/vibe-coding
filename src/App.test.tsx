@@ -8,16 +8,19 @@ describe("ContraSense presentation", () => {
     const { container } = render(<App />);
 
     expect(
-      screen.getByRole("heading", { name: "把 Vibe Coding 做成团队能力", level: 1 }),
+      screen.getByRole("heading", {
+        name: "高效 Vibe Coding 指南",
+        level: 1,
+      }),
     ).toBeVisible();
     expect(screen.getByRole("main")).toHaveAttribute("aria-roledescription", "幻灯片");
-    expect(screen.getByText("01 / 16", { selector: ".presentation__controls p" })).toBeVisible();
+    expect(screen.getByText("01 / 22", { selector: ".presentation__controls p" })).toBeVisible();
     expect(screen.queryByRole("button", { name: "播放手册" })).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /关闭/ })).not.toBeInTheDocument();
     expect(screen.queryByText("ContraSense")).not.toBeInTheDocument();
     expect(container.querySelector(".presentation__chrome")).not.toBeInTheDocument();
     expect(screen.getByRole("complementary", { name: "幻灯片预览" })).toBeVisible();
-    expect(screen.getAllByRole("button", { name: /^第 \d+ 页，/ })).toHaveLength(16);
+    expect(screen.getAllByRole("button", { name: /^第 \d+ 页，/ })).toHaveLength(22);
   });
 
   it("selects a slide from the preview rail", async () => {
@@ -25,12 +28,12 @@ describe("ContraSense presentation", () => {
     render(<App />);
 
     const preview = screen.getByRole("button", {
-      name: "第 12 页，独立审查专门寻找反例",
+      name: "第 16 页，独立审查要主动寻找反例",
     });
     await user.click(preview);
 
     expect(preview).toHaveAttribute("aria-current", "page");
-    expect(screen.getByRole("heading", { name: "独立审查专门寻找反例" })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "独立审查要主动寻找反例" })).toBeVisible();
     expect(screen.getByText("审查者不继承结论")).toBeVisible();
     expect(screen.getByText("证据不足暂不放行")).toBeVisible();
   });
@@ -40,10 +43,14 @@ describe("ContraSense presentation", () => {
     render(<App />);
 
     await user.click(screen.getByRole("button", { name: "下一页" }));
-    expect(screen.getByRole("heading", { name: "智力有两种工作方式" })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "流体智力解新题，晶体智力调用经验" })).toBeVisible();
 
     await user.keyboard("{End}");
-    expect(screen.getByRole("heading", { name: "下一轮开发少猜一步" })).toBeVisible();
+    expect(
+      screen.getByRole("heading", {
+        name: "AI Native 组织需要一套持续学习系统",
+      }),
+    ).toBeVisible();
   });
 
   it("returns from the final slide to the cover", async () => {
@@ -53,8 +60,8 @@ describe("ContraSense presentation", () => {
     await user.keyboard("{End}");
     await user.click(screen.getByRole("button", { name: "回到封面" }));
 
-    expect(screen.getByRole("heading", { name: "把 Vibe Coding 做成团队能力" })).toBeVisible();
-    expect(screen.getByText("01 / 16", { selector: ".presentation__controls p" })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "高效 Vibe Coding 指南" })).toBeVisible();
+    expect(screen.getByText("01 / 22", { selector: ".presentation__controls p" })).toBeVisible();
   });
 
   it("enters and exits fullscreen from the controls", async () => {
